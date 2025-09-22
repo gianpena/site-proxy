@@ -16,7 +16,6 @@ app.use(cors({
 
 app.get('/monkeytype/:time', async (req, res) => {
   try {
-      console.log(process.env.APE_KEY);
       const { time } = req.params;
       const mt_time60_response = await fetch(`https://api.monkeytype.com/leaderboards/rank?language=english&mode=time&mode2=${time}`, {
               method: 'GET',
