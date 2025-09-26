@@ -65,4 +65,6 @@ app.get('/username', async (req, res) => {
 
 app.listen(serverPort, () => {
 	console.log(`Listening on port ${serverPort}...`);
+    console.log('Allowed origins are:');
+    console.log(allowedOrigins.join('\n'));
 });
