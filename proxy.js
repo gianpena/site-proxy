@@ -4,10 +4,13 @@ const https = require('https');
 const fs = require('fs');
 const app = express();
 
-const allowedOrigins = [
+let allowedOrigins = [
    'http://localhost:5173',
    'https://gianpena.xyz'
 ];
+
+allowedOrigins = allowedOrigins.concat(process.argv.slice(2));
+
 const serverPort = 3001;
 
 app.use(cors({ 
