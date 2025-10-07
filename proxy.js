@@ -29,7 +29,7 @@ app.get('/monkeytype/:time', async (req, res) => {
       const mt_time60_json = await mt_time60_response.json();
       const data = mt_time60_json.data;
       const stats = `${data.wpm} (${data.acc}% accuracy, rank ${data.rank})`;
-      const link = `https://monkeytype.com/profile/${data.username}`;
+      const link = `https://monkeytype.com/profile/${data.name}`;
       return res.status(200).json({ stats, link });
   } catch (error) {
       console.error('MonkeyType API Error:', error);
@@ -42,7 +42,7 @@ app.get('/typeracer', async (req, res) => {
        const typeracer_response = await fetch('https://www.typeracerdata.com/api/profile?username=gianthetaco');
        const typeracer_json = await typeracer_response.json();
        const stats = `${Math.round(typeracer_json.account.wpm_textbests * 100) / 100}`;
-       const link = `https://monkeytype.com/profile/${data.username}`;
+       const link = `https://monkeytype.com/profile/${data.name}`;
       return res.status(200).json({ stats, link });
    } catch (error) {
        console.error('TypeRacer API Error:', error);
