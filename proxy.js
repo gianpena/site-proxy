@@ -42,7 +42,7 @@ app.get('/typeracer', async (req, res) => {
        const typeracer_response = await fetch('https://www.typeracerdata.com/api/profile?username=gianthetaco');
        const typeracer_json = await typeracer_response.json();
        const stats = `${Math.round(typeracer_json.account.wpm_textbests * 100) / 100}`;
-       const link = `https://monkeytype.com/profile/${data.name}`;
+       const link = `https://data.typeracer.com/pit/profile?user=${typeracer_json.account.username}`;
       return res.status(200).json({ stats, link });
    } catch (error) {
        console.error('TypeRacer API Error:', error);
