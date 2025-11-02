@@ -54,7 +54,7 @@ app.get('/typegg', async (req, res) => {
   try{ 
     const typegg_response = await fetch('https://api.typegg.io/v1/users/gian');
     const typegg_json = await typegg_response.json();
-    const nWPM = typegg_json.stats.nWpm;
+    const nWpm = typegg_json.stats.nWpm;
     return res.status(200).json({ nWpm });
 
   } catch (error) {
