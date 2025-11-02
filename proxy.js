@@ -50,6 +50,19 @@ app.get('/typeracer', async (req, res) => {
    }
 });
 
+app.get('/typegg', async (req, res) => {
+  try{ 
+    const typegg_response = await fetch('https://api.typegg.io/v1/users/gian');
+    const typegg_json = await typegg_response.json();
+    const nWPM = typegg_json.stats.nWPM;
+    return res.status(200).json({ nWPM });
+
+  } catch (error) {
+    console.error('Type.GG API Error:', error);
+    return res.status(500).json({ success: false, error: 'Failed to fetch Type.GG data' });
+  }
+});
+
 app.get('/username', async (req, res) => {
   try {
     const discord_response = await fetch('https://discord.com/api/v10/users/247492668131770369', {
