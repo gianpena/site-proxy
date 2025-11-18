@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const https = require('https');
+const cheerio = require('cheerio');
 const fs = require('fs');
 const app = express();
 
@@ -39,11 +40,26 @@ app.get('/monkeytype/:time', async (req, res) => {
 
 app.get('/typeracer', async (req, res) => {
    try {
-       const typeracer_response = await fetch('https://www.typeracerdata.com/api/profile?username=gianthetaco');
-       const typeracer_json = await typeracer_response.json();
-       const stats = `${Math.round(typeracer_json.account.wpm_textbests * 100) / 100}`;
-       const link = `https://data.typeracer.com/pit/profile?user=${typeracer_json.account.username}`;
-      return res.status(200).json({ stats, link });
+      const typeracer_response = await fetch('https://www.typeracerdata.com/api/profile?username=gianthetaco');
+      const typeracer_json = await typeracer_response.json();
+      const stats = `${Math.round(typeracer_json.account.wpm_textbests * 100) / 100}`;
+      const link = `https://data.typeracer.com/pit/profile?user=${typeracer_json.account.username}`;
+
+      const tr_rank_response = await fetch('https://www.typeracerdata.com/leaders?min_races=1500&min_texts=1000&sort=wpm_textbests&rank_start=1&rank_end=1000');
+      const tr_rank_html = await tr_rank_response.text();
+      const $ = cheerio.load(tr_rank_html);
+      const rows = $('table tr');
+      let rank = null;
+      rows.each((index, row) => {
+        const link = $(row).find('a[href*="username=gianthetaco"]');
+
+        if (link.length > 0) {
+          const cells = $(row).find('td');
+          rank = $(cells[0]).text().replace('.', '');
+        }
+      });
+
+      return res.status(200).json({ stats, rank, link });
    } catch (error) {
        console.error('TypeRacer API Error:', error);
        return res.status(500).json({ success: false, error: 'Failed to fetch TypeRacer data' });
@@ -55,8 +71,8 @@ app.get('/typegg', async (req, res) => {
     const typegg_response = await fetch('https://api.typegg.io/v1/users/gian');
     const typegg_json = await typegg_response.json();
     const nWpm = typegg_json.stats.nWpm;
-    return res.status(200).json({ nWpm });
-
+    const rank = typegg_json.globalRank;
+    return res.status(200).json({ nWpm, rank });
   } catch (error) {
     console.error('Type.GG API Error:', error);
     return res.status(500).json({ success: false, error: 'Failed to fetch Type.GG data' });
