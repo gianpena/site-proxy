@@ -59,7 +59,7 @@ app.get('/typeracer', async (req, res) => {
         }
       });
 
-      return res.status(200).json({ stats, rank, link });
+      return res.status(200).json({ stats: `${stats} (rank ${rank})`, link });
    } catch (error) {
        console.error('TypeRacer API Error:', error);
        return res.status(500).json({ success: false, error: 'Failed to fetch TypeRacer data' });
@@ -72,7 +72,7 @@ app.get('/typegg', async (req, res) => {
     const typegg_json = await typegg_response.json();
     const nWpm = typegg_json.stats.nWpm;
     const rank = typegg_json.globalRank;
-    return res.status(200).json({ nWpm, rank });
+    return res.status(200).json({ nWpm: `${nWpm} (rank ${rank})` });
   } catch (error) {
     console.error('Type.GG API Error:', error);
     return res.status(500).json({ success: false, error: 'Failed to fetch Type.GG data' });
