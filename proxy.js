@@ -72,7 +72,7 @@ app.get('/typegg', async (req, res) => {
     const typegg_json = await typegg_response.json();
     const nWpm = typegg_json.stats.nWpm;
     const rank = typegg_json.globalRank;
-    return res.status(200).json({ nWpm: `${nWpm} (rank ${rank})` });
+    return res.status(200).json({ nWpm: `${nWpm.toFixed(2)} (rank ${rank})` });
   } catch (error) {
     console.error('Type.GG API Error:', error);
     return res.status(500).json({ success: false, error: 'Failed to fetch Type.GG data' });
