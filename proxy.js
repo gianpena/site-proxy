@@ -108,5 +108,5 @@ app.listen(serverPort, () => {
        console.error('TypeRacer API Error:', error);
        return res.status(500).json({ success: false, error: 'Failed to fetch TypeRacer data' });
    }
-  }, 60 * 1000);
+  }, 5 * 60 * 1000);
 });
