@@ -110,5 +110,5 @@ app.listen(serverPort, () => {
     console.log(allowedOrigins.join('\n'));
 
   setTimeout(updateCache, 30 * 1000);
-  setInterval(updateCache, 5 * 60 * 1000);
+  setInterval(updateCache, 10 * 60 * 1000);
 });
