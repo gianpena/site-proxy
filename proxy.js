@@ -100,7 +100,6 @@ async function updateCache() {
     typeracer_stats = { stats: `${stats} (rank ${rank})`, link };
   } catch (error) {
       console.error('TypeRacer API Error:', error);
-      return res.status(500).json({ success: false, error: 'Failed to fetch TypeRacer data' });
   }
 }
 
